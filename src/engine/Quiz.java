@@ -1,47 +1,61 @@
 package engine;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Quiz {
 
-    private static int idCount = 1;
-
+    @NotEmpty
     private String title;
+    @NotEmpty
     private String text;
+    @NotEmpty
+    @Size(min = 2)
     private List<String> options;
     @JsonIgnore
-    private int answer;
-    private final int id;
+    private List<Integer> answer;
+    private int id;
 
-    public Quiz(String title, String text, int answer, List<String> options) {
+    public Quiz() {
+        this.answer = new ArrayList<>();
+    }
+
+    public Quiz(String title, String text, List<Integer> answer, List<String> options) {
         this.title = title;
         this.text = text;
         this.options = options;
-        this.answer = answer;
-        this.id = Quiz.idCount;
-        Quiz.idCount++;
+        if (options == null) {
+            this.answer = new ArrayList<>();
+        } else {
+            this.answer = List.copyOf(answer);
+        }
     }
 
     public Quiz(Quiz other) {
         this.title = other.title;
         this.text = other.text;
         this.options = List.copyOf(other.options);
-        this.answer = other.answer;
-        this.id = Quiz.idCount;
-        Quiz.idCount++;
+        if (options == null) {
+            this.answer = new ArrayList<>();
+        } else {
+            this.answer = List.copyOf(other.answer);
+        }
     }
 
     @JsonIgnore
-    public int getAnswer() {
+    public List<Integer> getAnswer() {
         return answer;
     }
 
     @JsonProperty("answer")
-    public void setAnswer(int answer) {
+    public void setAnswer(List<Integer> answer) {
         this.answer = answer;
     }
 
@@ -71,5 +85,9 @@ public class Quiz {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
