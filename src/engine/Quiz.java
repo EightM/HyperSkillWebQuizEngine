@@ -3,25 +3,29 @@ package engine;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Quiz {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     @NotEmpty
     private String title;
     @NotEmpty
     private String text;
     @NotEmpty
     @Size(min = 2)
+    @ElementCollection
     private List<String> options;
     @JsonIgnore
+    @ElementCollection
     private List<Integer> answer;
-    private int id;
 
     public Quiz() {
         this.answer = new ArrayList<>();
