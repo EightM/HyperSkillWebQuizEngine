@@ -1,5 +1,8 @@
-package engine;
+package engine.controllers;
 
+import engine.quiz.Quiz;
+import engine.quiz.QuizAnswer;
+import engine.quiz.QuizResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -56,4 +59,6 @@ public class QuizController {
 
         return new QuizResult(false, "Wrong.");
     }
+
+
 }
