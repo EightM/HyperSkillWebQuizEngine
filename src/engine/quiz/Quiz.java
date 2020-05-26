@@ -2,6 +2,7 @@ package engine.quiz;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import engine.user.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -13,19 +14,28 @@ import java.util.List;
 public class Quiz {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @NotEmpty
     private String title;
+
     @NotEmpty
     private String text;
+
     @NotEmpty
     @Size(min = 2)
     @ElementCollection
     private List<String> options;
+
     @JsonIgnore
     @ElementCollection
     private List<Integer> answer;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     public Quiz() {
         this.answer = new ArrayList<>();
@@ -93,5 +103,13 @@ public class Quiz {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
