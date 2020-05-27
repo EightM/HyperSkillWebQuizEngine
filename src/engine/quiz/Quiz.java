@@ -37,6 +37,10 @@ public class Quiz {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
+    private List<QuizCompletion> quizCompletion = new ArrayList<>();
+
     public Quiz() {
         this.answer = new ArrayList<>();
     }
@@ -111,5 +115,13 @@ public class Quiz {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<QuizCompletion> getQuizCompletion() {
+        return quizCompletion;
+    }
+
+    public void setQuizCompletion(List<QuizCompletion> quizCompletion) {
+        this.quizCompletion = quizCompletion;
     }
 }
